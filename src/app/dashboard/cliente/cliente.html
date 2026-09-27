@@ -1,0 +1,37 @@
+<div class="dashboard-container">
+  <header class="dashboard-header">
+    <h1>Panel de Cliente - TrackIt Express</h1>
+    <p>Bienvenido. Aquí puedes monitorear a los conductores y vehículos de tus envíos.</p>
+  </header>
+
+  <section class="content-section">
+    <h2>Conductores y Vehículos Asignados</h2>
+    
+    <div class="table-responsive">
+      <table>
+        <thead>
+          <tr>
+            <th>Conductor</th>
+            <th>Teléfono</th>
+            <th>Vehículo</th>
+            <th>Placa</th>
+            <th>Estado</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let c of conductores">
+            <td>{{ c.nombre }}</td>
+            <td>{{ c.telefono }}</td>
+            <td>{{ c.vehiculo }}</td>
+            <td><strong>{{ c.placa }}</strong></td>
+            <td>
+              <span [ngClass]="{'badge-ruta': c.estado === 'En ruta', 'badge-disp': c.estado === 'Disponible'}">
+                {{ c.estado }}
+              </span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+</div>

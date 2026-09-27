@@ -1,0 +1,53 @@
+<div class="dashboard-container">
+  <header class="dashboard-header">
+    <h1>Panel de Conductor - TrackIt Express</h1>
+    <p>Control de ruta y gestión de unidades asignadas.</p>
+  </header>
+
+  <div class="conductor-grid">
+    <!-- Tarjeta de Información del Vehículo -->
+    <div class="card">
+      <h2>Mi Vehículo Asignado</h2>
+      <div class="info-group">
+        <label>Vehículo:</label>
+        <span>{{ conductorInfo.vehiculo }}</span>
+      </div>
+      <div class="info-group">
+        <label>Placa:</label>
+        <span class="placa-badge">{{ conductorInfo.placa }}</span>
+      </div>
+      <div class="info-group">
+        <label>Carga Actual:</label>
+        <span>{{ conductorInfo.carga }}</span>
+      </div>
+    </div>
+
+    <!-- Tarjeta de Estado y Ruta -->
+    <div class="card">
+      <h2>Estado Operativo</h2>
+      <div class="info-group">
+        <label>Estado Actual:</label>
+        <span class="estado-tag" [ngClass]="{
+          'status-ruta': conductorInfo.estadoActual === 'En ruta',
+          'status-disp': conductorInfo.estadoActual === 'Disponible',
+          'status-desc': conductorInfo.estadoActual === 'En descanso'
+        }">
+          {{ conductorInfo.estadoActual }}
+        </span>
+      </div>
+      <div class="info-group">
+        <label>Destino Asignado:</label>
+        <span>{{ conductorInfo.destino }}</span>
+      </div>
+
+      <div class="actions">
+        <p>Cambiar mi estado:</p>
+        <div class="btn-group">
+          <button (click)="cambiarEstado('Disponible')" class="btn-disp">Disponible</button>
+          <button (click)="cambiarEstado('En ruta')" class="btn-ruta">En Ruta</button>
+          <button (click)="cambiarEstado('En descanso')" class="btn-desc">Descanso</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
