@@ -20,7 +20,8 @@ import { Router, RouterModule } from '@angular/router';
         <!-- Logo y Encabezado -->
         <div class="text-center mb-8">
           <div class="inline-flex items-center justify-center w-14 h-14 bg-gradient-to-tr from-orange-600 to-amber-500 rounded-2xl shadow-lg shadow-orange-500/20 mb-4">
-            <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <!-- Ícono Rayo con tamaño explícito 28px -->
+            <svg width="28" height="28" class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
             </svg>
           </div>
@@ -61,7 +62,10 @@ import { Router, RouterModule } from '@angular/router';
           <!-- Campo Nombre (Solo en Registro) -->
           <div *ngIf="!isLogin">
             <label class="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-1.5">Nombre Completo</label>
-            <div class="relative">
+            <div class="relative flex items-center">
+              <svg width="16" height="16" class="w-4 h-4 text-slate-500 absolute left-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+              </svg>
               <input 
                 type="text" 
                 [(ngModel)]="nombre" 
@@ -69,16 +73,16 @@ import { Router, RouterModule } from '@angular/router';
                 required 
                 placeholder="Ej. Juan Pérez"
                 class="w-full pl-10 pr-4 py-3 bg-slate-950/60 border border-slate-800 rounded-xl text-xs font-medium text-white placeholder-slate-600 focus:outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500 transition">
-              <svg class="w-4 h-4 text-slate-500 absolute left-3.5 top-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-              </svg>
             </div>
           </div>
 
-          <!-- Campo Correo Electrónico -->
+          <!-- Campo Correo Electrónico (@) -->
           <div>
             <label class="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-1.5">Correo Electrónico</label>
-            <div class="relative">
+            <div class="relative flex items-center">
+              <svg width="16" height="16" class="w-4 h-4 text-slate-500 absolute left-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207" />
+              </svg>
               <input 
                 type="email" 
                 [(ngModel)]="correo" 
@@ -86,16 +90,16 @@ import { Router, RouterModule } from '@angular/router';
                 required 
                 placeholder="usuario@ejemplo.com"
                 class="w-full pl-10 pr-4 py-3 bg-slate-950/60 border border-slate-800 rounded-xl text-xs font-medium text-white placeholder-slate-600 focus:outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500 transition">
-              <svg class="w-4 h-4 text-slate-500 absolute left-3.5 top-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207" />
-              </svg>
             </div>
           </div>
 
-          <!-- Campo Contraseña -->
+          <!-- Campo Contraseña (Candado) -->
           <div>
             <label class="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-1.5">Contraseña</label>
-            <div class="relative">
+            <div class="relative flex items-center">
+              <svg width="16" height="16" class="w-4 h-4 text-slate-500 absolute left-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+              </svg>
               <input 
                 type="password" 
                 [(ngModel)]="password" 
@@ -103,13 +107,10 @@ import { Router, RouterModule } from '@angular/router';
                 required 
                 placeholder="••••••••"
                 class="w-full pl-10 pr-4 py-3 bg-slate-950/60 border border-slate-800 rounded-xl text-xs font-medium text-white placeholder-slate-600 focus:outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500 transition">
-              <svg class="w-4 h-4 text-slate-500 absolute left-3.5 top-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-              </svg>
             </div>
           </div>
 
-          <!-- Selección de Perfil / Rol -->
+          <!-- Selección de Rol -->
           <div class="pt-2">
             <label class="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-2">Selecciona tu Rol</label>
             <div class="grid grid-cols-2 gap-3">
