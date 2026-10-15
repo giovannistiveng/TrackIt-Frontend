@@ -8,199 +8,191 @@ import { Router, RouterModule } from '@angular/router';
   standalone: true,
   imports: [CommonModule, FormsModule, RouterModule],
   template: `
-    <div class="min-h-screen bg-slate-950 text-slate-100 font-sans">
+    <div style="min-height: 100vh; background-color: #020617; color: #f8fafc; font-family: system-ui, -apple-system, sans-serif; padding: 1.5rem;">
       
-      <!-- Navbar Moderno -->
-      <header class="bg-slate-900/80 border-b border-slate-800 backdrop-blur-xl sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-          <div class="flex items-center gap-3">
-            <div class="p-2 bg-orange-500/10 border border-orange-500/30 rounded-xl text-orange-400">
-              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
-              </svg>
-            </div>
-            <div>
-              <h1 class="text-lg font-black text-white tracking-tight">
-                TrackIt<span class="text-orange-500">.</span> Express
-              </h1>
-              <p class="text-[11px] text-slate-400 font-medium">Portal de Solicitudes - Cliente</p>
-            </div>
+      <!-- Navbar Superior -->
+      <header style="max-width: 1200px; margin: 0 auto 2rem auto; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #1e293b; padding-bottom: 1rem;">
+        <div style="display: flex; align-items: center; gap: 0.75rem;">
+          <div style="padding: 0.5rem; background: rgba(249, 115, 22, 0.15); border: 1px solid rgba(249, 115, 22, 0.3); border-radius: 0.75rem; color: #f97316; display: flex; align-items: center; justify-content: center;">
+            <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+            </svg>
           </div>
-
-          <button 
-            (click)="cerrarSesion()" 
-            class="bg-slate-800/80 hover:bg-rose-600/80 text-xs font-bold text-slate-300 hover:text-white px-4 py-2.5 rounded-xl border border-slate-700/60 transition cursor-pointer">
-            Cerrar Sesión
-          </button>
+          <div>
+            <h1 style="font-size: 1.25rem; font-weight: 900; margin: 0; color: #ffffff;">
+              TrackIt<span style="color: #f97316;">.</span> Express
+            </h1>
+            <p style="font-size: 0.75rem; color: #94a3b8; margin: 0.1rem 0 0 0; font-weight: 500;">Portal de Solicitudes - Cliente</p>
+          </div>
         </div>
+
+        <button 
+          (click)="cerrarSesion()" 
+          style="background: #1e293b; color: #cbd5e1; border: 1px solid #334155; padding: 0.6rem 1.2rem; border-radius: 0.75rem; font-size: 0.75rem; font-weight: 700; cursor: pointer;">
+          Cerrar Sesión
+        </button>
       </header>
 
-      <!-- Dashboard Body -->
-      <main class="max-w-7xl mx-auto px-6 py-10">
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
-          
-          <!-- FORMULARIO DE SOLICITUD -->
-          <div class="lg:col-span-7 bg-slate-900/70 p-8 rounded-3xl border border-slate-800/80 shadow-2xl">
-            <div class="flex items-center gap-3 mb-6">
-              <span class="w-3 h-3 rounded-full bg-orange-500"></span>
-              <h2 class="text-xl font-extrabold text-white">Solicitar Envío Acarreo</h2>
-            </div>
-
-            <form (ngSubmit)="solicitarEnvio()" class="space-y-6">
-              
-              <!-- Puntos A y B -->
-              <div class="space-y-4">
-                <div>
-                  <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">
-                    Dirección de Origen (Recogida)
-                  </label>
-                  <input 
-                    type="text" 
-                    [(ngModel)]="nuevoEnvio.origen" 
-                    name="origen" 
-                    required
-                    placeholder="Ej. Calle 10 # 5-20, Centro"
-                    class="w-full px-4 py-3 bg-slate-950 border border-slate-800 rounded-xl text-xs font-medium text-white focus:outline-none focus:border-orange-500 transition">
-                </div>
-
-                <div>
-                  <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">
-                    Dirección de Destino (Entrega)
-                  </label>
-                  <input 
-                    type="text" 
-                    [(ngModel)]="nuevoEnvio.destino" 
-                    name="destino" 
-                    required
-                    placeholder="Ej. Barrio Balmoral"
-                    class="w-full px-4 py-3 bg-slate-950 border border-slate-800 rounded-xl text-xs font-medium text-white focus:outline-none focus:border-orange-500 transition">
-                </div>
-              </div>
-
-              <!-- Selector de Vehículo con Tarifas -->
-              <div>
-                <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-3">
-                  Categoría de Vehículo
-                </label>
-                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                  
-                  <button 
-                    type="button" 
-                    (click)="seleccionarCategoria('Moto Express', 15000)"
-                    [ngClass]="{
-                      'border-orange-500 bg-orange-500/10 text-orange-400 font-bold': nuevoEnvio.tipoCarga === 'Moto Express',
-                      'border-slate-800 bg-slate-950/60 text-slate-400 hover:border-slate-700': nuevoEnvio.tipoCarga !== 'Moto Express'
-                    }"
-                    class="p-4 rounded-2xl border flex flex-col items-start justify-between gap-3 transition text-left cursor-pointer">
-                    <div class="p-2 rounded-lg bg-slate-800/80 text-orange-400">
-                      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
-                    </div>
-                    <div>
-                      <span class="block text-xs">Moto Express</span>
-                      <span class="text-sm font-black text-white">$15.000</span>
-                    </div>
-                  </button>
-
-                  <button 
-                    type="button" 
-                    (click)="seleccionarCategoria('Motocarro', 28000)"
-                    [ngClass]="{
-                      'border-orange-500 bg-orange-500/10 text-orange-400 font-bold': nuevoEnvio.tipoCarga === 'Motocarro',
-                      'border-slate-800 bg-slate-950/60 text-slate-400 hover:border-slate-700': nuevoEnvio.tipoCarga !== 'Motocarro'
-                    }"
-                    class="p-4 rounded-2xl border flex flex-col items-start justify-between gap-3 transition text-left cursor-pointer">
-                    <div class="p-2 rounded-lg bg-slate-800/80 text-orange-400">
-                      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"/></svg>
-                    </div>
-                    <div>
-                      <span class="block text-xs">Motocarro</span>
-                      <span class="text-sm font-black text-white">$28.000</span>
-                    </div>
-                  </button>
-
-                  <button 
-                    type="button" 
-                    (click)="seleccionarCategoria('Camioneta', 55000)"
-                    [ngClass]="{
-                      'border-orange-500 bg-orange-500/10 text-orange-400 font-bold': nuevoEnvio.tipoCarga === 'Camioneta',
-                      'border-slate-800 bg-slate-950/60 text-slate-400 hover:border-slate-700': nuevoEnvio.tipoCarga !== 'Camioneta'
-                    }"
-                    class="p-4 rounded-2xl border flex flex-col items-start justify-between gap-3 transition text-left cursor-pointer">
-                    <div class="p-2 rounded-lg bg-slate-800/80 text-orange-400">
-                      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17a2 2 0 11-4 0 2 2 0 014 0zM19 17a2 2 0 11-4 0 2 2 0 014 0zM13 16V6a1 1 0 00-1-1H4a1 1 0 00-1 1v10M13 8h6a2 2 0 012 2v5l-3-3h-5V8z"/></svg>
-                    </div>
-                    <div>
-                      <span class="block text-xs">Camioneta</span>
-                      <span class="text-sm font-black text-white">$55.000</span>
-                    </div>
-                  </button>
-
-                </div>
-              </div>
-
-              <button 
-                type="submit" 
-                [disabled]="cargando"
-                class="w-full bg-orange-500 hover:bg-orange-600 active:scale-[0.99] text-white font-bold py-4 rounded-xl shadow-lg shadow-orange-500/20 transition duration-200 text-xs uppercase tracking-wider cursor-pointer disabled:opacity-50">
-                {{ cargando ? 'Generando Orden...' : 'Confirmar y Solicitar Envío' }}
-              </button>
-
-            </form>
+      <!-- Grid Principal (Formulario y Ticket) -->
+      <main style="max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2rem;">
+        
+        <!-- Formulario de Solicitud -->
+        <div style="background: #0f172a; border: 1px solid #1e293b; border-radius: 1.5rem; padding: 2rem; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.5);">
+          <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1.5rem;">
+            <span style="width: 10px; height: 10px; border-radius: 50%; background-color: #f97316; display: inline-block;"></span>
+            <h2 style="font-size: 1.25rem; font-weight: 800; color: #ffffff; margin: 0;">Solicitar Envío Acarreo</h2>
           </div>
 
-          <!-- TICKET DE RESPUESTA EN VIVO -->
-          <div class="lg:col-span-5">
-            <div *ngIf="ultimoEnvio" class="bg-slate-900 p-8 rounded-3xl border border-orange-500/30 shadow-2xl relative overflow-hidden space-y-6">
-              
-              <div class="flex justify-between items-center border-b border-slate-800 pb-4">
-                <div>
-                  <p class="text-[10px] font-bold uppercase text-slate-400 tracking-widest">Orden Creada</p>
-                  <p class="text-2xl font-black text-white">#{{ ultimoEnvio.idEnvio }}</p>
-                </div>
-                <span class="bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 text-[10px] font-bold px-3 py-1 rounded-full uppercase">
-                  {{ ultimoEnvio.estado || 'Pendiente' }}
-                </span>
-              </div>
-
-              <div class="space-y-3 text-xs">
-                <div>
-                  <span class="text-slate-500 uppercase font-bold block mb-0.5">Origen</span>
-                  <p class="font-medium text-slate-200">{{ ultimoEnvio.origen }}</p>
-                </div>
-
-                <div>
-                  <span class="text-slate-500 uppercase font-bold block mb-0.5">Destino</span>
-                  <p class="font-medium text-slate-200">{{ ultimoEnvio.destino }}</p>
-                </div>
-
-                <div class="flex justify-between items-center pt-2">
-                  <span class="text-slate-400">Categoría: <strong class="text-white">{{ ultimoEnvio.tipoCarga }}</strong></span>
-                  <span class="text-xl font-black text-orange-400">\${{ ultimoEnvio.tarifa | number }}</span>
-                </div>
-              </div>
-
-              <!-- PIN DE SEGURIDAD DESTACADO -->
-              <div class="bg-slate-950 p-6 rounded-2xl text-center border border-slate-800/80">
-                <span class="text-[10px] uppercase text-slate-400 font-bold tracking-widest block mb-1">
-                  PIN de Seguridad Requerido
-                </span>
-                <span class="text-4xl font-black text-orange-500 tracking-widest">
-                  {{ ultimoEnvio.pinSeguridad }}
-                </span>
-                <p class="text-[10px] text-slate-500 mt-2">
-                  Brinda este PIN de 4 dígitos al conductor para validar la entrega de tu encomienda.
-                </p>
-              </div>
-
+          <form (ngSubmit)="solicitarEnvio()" style="display: flex; flex-direction: column; gap: 1.25rem;">
+            
+            <!-- Dirección Origen -->
+            <div>
+              <label style="display: block; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: #94a3b8; margin-bottom: 0.5rem;">
+                Dirección de Origen (Recogida)
+              </label>
+              <input 
+                type="text" 
+                [(ngModel)]="nuevoEnvio.origen" 
+                name="origen" 
+                required 
+                placeholder="Ej. Calle 10 # 5-20, Centro"
+                style="width: 100%; padding: 0.8rem; background-color: #020617; border: 1px solid #334155; border-radius: 0.75rem; color: #ffffff; font-size: 0.8rem; box-sizing: border-box; outline: none;">
             </div>
 
-            <div *ngIf="!ultimoEnvio" class="bg-slate-900/40 border-2 border-dashed border-slate-800 p-12 rounded-3xl text-center text-slate-600 h-full flex flex-col justify-center items-center">
-              <svg class="w-12 h-12 text-slate-700 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg>
-              <p class="text-xs font-semibold">Completa el formulario para generar tu orden de envío.</p>
+            <!-- Dirección Destino -->
+            <div>
+              <label style="display: block; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: #94a3b8; margin-bottom: 0.5rem;">
+                Dirección de Destino (Entrega)
+              </label>
+              <input 
+                type="text" 
+                [(ngModel)]="nuevoEnvio.destino" 
+                name="destino" 
+                required 
+                placeholder="Ej. Barrio Balmoral"
+                style="width: 100%; padding: 0.8rem; background-color: #020617; border: 1px solid #334155; border-radius: 0.75rem; color: #ffffff; font-size: 0.8rem; box-sizing: border-box; outline: none;">
             </div>
-          </div>
 
+            <!-- Selector de Vehículo con Iconos SVG Controlados -->
+            <div>
+              <label style="display: block; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: #94a3b8; margin-bottom: 0.75rem;">
+                Categoría de Vehículo
+              </label>
+              <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem;">
+                
+                <!-- Moto Express -->
+                <button 
+                  type="button" 
+                  (click)="seleccionarCategoria('Moto Express', 15000)"
+                  [style.border-color]="nuevoEnvio.tipoCarga === 'Moto Express' ? '#f97316' : '#334155'"
+                  [style.background]="nuevoEnvio.tipoCarga === 'Moto Express' ? 'rgba(249, 115, 22, 0.15)' : '#020617'"
+                  [style.color]="nuevoEnvio.tipoCarga === 'Moto Express' ? '#fb923c' : '#94a3b8'"
+                  style="padding: 1rem 0.5rem; border-width: 1px; border-style: solid; border-radius: 1rem; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.5rem; cursor: pointer;">
+                  <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                  </svg>
+                  <span style="font-size: 0.75rem; font-weight: 700; text-align: center;">Moto Express</span>
+                  <span style="font-size: 0.8rem; font-weight: 900; color: #ffffff;">$15.000</span>
+                </button>
+
+                <!-- Motocarro -->
+                <button 
+                  type="button" 
+                  (click)="seleccionarCategoria('Motocarro', 28000)"
+                  [style.border-color]="nuevoEnvio.tipoCarga === 'Motocarro' ? '#f97316' : '#334155'"
+                  [style.background]="nuevoEnvio.tipoCarga === 'Motocarro' ? 'rgba(249, 115, 22, 0.15)' : '#020617'"
+                  [style.color]="nuevoEnvio.tipoCarga === 'Motocarro' ? '#fb923c' : '#94a3b8'"
+                  style="padding: 1rem 0.5rem; border-width: 1px; border-style: solid; border-radius: 1rem; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.5rem; cursor: pointer;">
+                  <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"/>
+                  </svg>
+                  <span style="font-size: 0.75rem; font-weight: 700; text-align: center;">Motocarro</span>
+                  <span style="font-size: 0.8rem; font-weight: 900; color: #ffffff;">$28.000</span>
+                </button>
+
+                <!-- Camioneta -->
+                <button 
+                  type="button" 
+                  (click)="seleccionarCategoria('Camioneta', 55000)"
+                  [style.border-color]="nuevoEnvio.tipoCarga === 'Camioneta' ? '#f97316' : '#334155'"
+                  [style.background]="nuevoEnvio.tipoCarga === 'Camioneta' ? 'rgba(249, 115, 22, 0.15)' : '#020617'"
+                  [style.color]="nuevoEnvio.tipoCarga === 'Camioneta' ? '#fb923c' : '#94a3b8'"
+                  style="padding: 1rem 0.5rem; border-width: 1px; border-style: solid; border-radius: 1rem; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.5rem; cursor: pointer;">
+                  <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 17a2 2 0 11-4 0 2 2 0 014 0zM19 17a2 2 0 11-4 0 2 2 0 014 0zM13 16V6a1 1 0 00-1-1H4a1 1 0 00-1 1v10M13 8h6a2 2 0 012 2v5l-3-3h-5V8z"/>
+                  </svg>
+                  <span style="font-size: 0.75rem; font-weight: 700; text-align: center;">Camioneta</span>
+                  <span style="font-size: 0.8rem; font-weight: 900; color: #ffffff;">$55.000</span>
+                </button>
+
+              </div>
+            </div>
+
+            <!-- Botón Solicitar Envío -->
+            <button 
+              type="submit" 
+              [disabled]="cargando"
+              style="width: 100%; margin-top: 0.5rem; padding: 1rem; background: #f97316; border: none; border-radius: 0.75rem; color: #ffffff; font-size: 0.8rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; cursor: pointer; box-shadow: 0 10px 15px -3px rgba(249, 115, 22, 0.3);">
+              {{ cargando ? 'Generando Orden...' : 'Confirmar y Solicitar Envío' }}
+            </button>
+
+          </form>
         </div>
+
+        <!-- Ticket de Resumen / Respuesta de Orden -->
+        <div>
+          <div *ngIf="ultimoEnvio" style="background: #0f172a; border: 1px solid rgba(249, 115, 22, 0.3); border-radius: 1.5rem; padding: 2rem; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.5); display: flex; flex-direction: column; gap: 1.5rem;">
+            
+            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #1e293b; padding-bottom: 1rem;">
+              <div>
+                <p style="font-size: 0.65rem; font-weight: 700; text-transform: uppercase; color: #94a3b8; letter-spacing: 0.1em; margin: 0;">Orden Creada</p>
+                <p style="font-size: 1.75rem; font-weight: 900; color: #ffffff; margin: 0;">#{{ ultimoEnvio.idEnvio }}</p>
+              </div>
+              <span style="background: rgba(16, 185, 129, 0.15); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.3); font-size: 0.65rem; font-weight: 800; padding: 0.25rem 0.75rem; border-radius: 9999px; text-transform: uppercase;">
+                {{ ultimoEnvio.estado || 'Pendiente' }}
+              </span>
+            </div>
+
+            <div style="display: flex; flex-direction: column; gap: 0.75rem; font-size: 0.8rem;">
+              <div>
+                <span style="color: #64748b; font-weight: 700; text-transform: uppercase; font-size: 0.65rem; display: block; margin-bottom: 0.2rem;">Origen</span>
+                <p style="margin: 0; color: #e2e8f0; font-weight: 600;">{{ ultimoEnvio.origen }}</p>
+              </div>
+
+              <div>
+                <span style="color: #64748b; font-weight: 700; text-transform: uppercase; font-size: 0.65rem; display: block; margin-bottom: 0.2rem;">Destino</span>
+                <p style="margin: 0; color: #e2e8f0; font-weight: 600;">{{ ultimoEnvio.destino }}</p>
+              </div>
+
+              <div style="display: flex; justify-content: space-between; align-items: center; padding-top: 0.5rem; border-top: 1px solid #1e293b;">
+                <span style="color: #94a3b8;">Categoría: <strong style="color: #ffffff;">{{ ultimoEnvio.tipoCarga }}</strong></span>
+                <span style="font-size: 1.25rem; font-weight: 900; color: #f97316;">\${{ ultimoEnvio.tarifa | number }}</span>
+              </div>
+            </div>
+
+            <!-- PIN de Seguridad -->
+            <div style="background-color: #020617; border: 1px solid #1e293b; border-radius: 1rem; padding: 1.25rem; text-align: center;">
+              <span style="font-size: 0.65rem; text-transform: uppercase; color: #94a3b8; font-weight: 700; letter-spacing: 0.1em; display: block; margin-bottom: 0.25rem;">
+                PIN de Seguridad Requerido
+              </span>
+              <span style="font-size: 2.25rem; font-weight: 900; color: #f97316; letter-spacing: 0.15em;">
+                {{ ultimoEnvio.pinSeguridad }}
+              </span>
+              <p style="font-size: 0.65rem; color: #64748b; margin: 0.5rem 0 0 0;">
+                Brinda este PIN de 4 dígitos al conductor para validar la entrega de tu encomienda.
+              </p>
+            </div>
+
+          </div>
+
+          <div *ngIf="!ultimoEnvio" style="background: rgba(15, 23, 42, 0.5); border: 2px dashed #1e293b; padding: 3rem 1.5rem; border-radius: 1.5rem; text-align: center; color: #64748b;">
+            <svg width="48" height="48" fill="none" stroke="#334155" viewBox="0 0 24 24" style="margin: 0 auto 0.75rem auto; display: block;" stroke-width="1.5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/>
+            </svg>
+            <p style="font-size: 0.8rem; font-weight: 600; margin: 0;">Completa el formulario para generar tu orden de envío.</p>
+          </div>
+        </div>
+
       </main>
 
     </div>
