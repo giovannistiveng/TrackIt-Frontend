@@ -8,148 +8,117 @@ import { Router, RouterModule } from '@angular/router';
   standalone: true,
   imports: [CommonModule, FormsModule, RouterModule],
   template: `
-    <div class="min-h-screen bg-slate-950 flex items-center justify-center p-4 relative overflow-hidden font-sans">
+    <div style="min-height: 100vh; display: flex; align-items: center; justify-content: center; background-color: #020617; padding: 1rem;">
       
-      <!-- Destellos de fondo (Glow Effects) -->
-      <div class="absolute top-1/4 -left-20 w-96 h-96 bg-orange-500/15 rounded-full blur-3xl pointer-events-none"></div>
-      <div class="absolute bottom-1/4 -right-20 w-96 h-96 bg-blue-600/15 rounded-full blur-3xl pointer-events-none"></div>
-
-      <!-- Tarjeta Principal con Glassmorphism -->
-      <div class="w-full max-w-md bg-slate-900/80 backdrop-blur-xl border border-slate-800/80 rounded-3xl p-8 shadow-2xl relative z-10">
+      <!-- Tarjeta de Autenticación Centrada -->
+      <div style="width: 100%; max-width: 420px; background: rgba(15, 23, 42, 0.95); border: 1px solid #1e293b; border-radius: 1.5rem; padding: 2rem; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); color: #ffffff;">
         
-        <!-- Logo y Encabezado -->
-        <div class="text-center mb-8">
-          <div class="inline-flex items-center justify-center w-14 h-14 bg-gradient-to-tr from-orange-600 to-amber-500 rounded-2xl shadow-lg shadow-orange-500/20 mb-4">
-            <!-- Ícono Rayo con tamaño explícito 28px -->
-            <svg width="28" height="28" class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+        <!-- Logo y Título -->
+        <div style="text-align: center; margin-bottom: 1.5rem;">
+          <div style="display: inline-flex; align-items: center; justify-content: center; width: 50px; height: 50px; background: linear-gradient(135deg, #ea580c, #f59e0b); border-radius: 1rem; margin-bottom: 0.75rem;">
+            <svg width="24" height="24" fill="none" stroke="#ffffff" viewBox="0 0 24 24" stroke-width="2.5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
             </svg>
           </div>
-          <h1 class="text-2xl font-black tracking-tight text-white">
-            TrackIt<span class="text-orange-500">.</span> Express
-          </h1>
-          <p class="text-xs text-slate-400 font-medium mt-1">Plataforma Logística e Inteligente</p>
+          <h1 style="font-size: 1.5rem; font-weight: 900; margin: 0;">TrackIt<span style="color: #f97316;">.</span> Express</h1>
+          <p style="font-size: 0.75rem; color: #94a3b8; margin-top: 0.25rem;">Plataforma Logística e Inteligente</p>
         </div>
 
-        <!-- Pestañas de Navegación (Login / Registro) -->
-        <div class="grid grid-cols-2 p-1 bg-slate-950/80 border border-slate-800 rounded-2xl mb-6">
+        <!-- Selector de Pestañas (Login / Registro) -->
+        <div style="display: grid; grid-template-columns: 1fr 1fr; background: #020617; border: 1px solid #1e293b; border-radius: 0.75rem; padding: 0.25rem; margin-bottom: 1.5rem;">
           <button 
             type="button" 
             (click)="toggleTab(true)" 
-            [ngClass]="{
-              'bg-orange-500 text-white font-bold shadow-lg shadow-orange-500/25': isLogin,
-              'text-slate-400 hover:text-slate-200 font-medium': !isLogin
-            }"
-            class="py-2.5 rounded-xl text-xs transition-all duration-200 cursor-pointer">
+            [style.background]="isLogin ? '#f97316' : 'transparent'"
+            [style.color]="isLogin ? '#ffffff' : '#94a3b8'"
+            style="border: none; padding: 0.6rem; border-radius: 0.5rem; font-size: 0.75rem; font-weight: 700; cursor: pointer; transition: all 0.2s;">
             Iniciar Sesión
           </button>
-
           <button 
             type="button" 
             (click)="toggleTab(false)" 
-            [ngClass]="{
-              'bg-orange-500 text-white font-bold shadow-lg shadow-orange-500/25': !isLogin,
-              'text-slate-400 hover:text-slate-200 font-medium': isLogin
-            }"
-            class="py-2.5 rounded-xl text-xs transition-all duration-200 cursor-pointer">
+            [style.background]="!isLogin ? '#f97316' : 'transparent'"
+            [style.color]="!isLogin ? '#ffffff' : '#94a3b8'"
+            style="border: none; padding: 0.6rem; border-radius: 0.5rem; font-size: 0.75rem; font-weight: 700; cursor: pointer; transition: all 0.2s;">
             Registrarse
           </button>
         </div>
 
         <!-- Formulario -->
-        <form (ngSubmit)="onSubmit()" class="space-y-4">
+        <form (ngSubmit)="onSubmit()" style="display: flex; flex-direction: column; gap: 1rem;">
           
-          <!-- Campo Nombre (Solo en Registro) -->
+          <!-- Nombre (Solo en Registro) -->
           <div *ngIf="!isLogin">
-            <label class="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-1.5">Nombre Completo</label>
-            <div class="relative flex items-center">
-              <svg width="16" height="16" class="w-4 h-4 text-slate-500 absolute left-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-              </svg>
-              <input 
-                type="text" 
-                [(ngModel)]="nombre" 
-                name="nombre" 
-                required 
-                placeholder="Ej. Juan Pérez"
-                class="w-full pl-10 pr-4 py-3 bg-slate-950/60 border border-slate-800 rounded-xl text-xs font-medium text-white placeholder-slate-600 focus:outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500 transition">
-            </div>
+            <label style="display: block; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; color: #94a3b8; margin-bottom: 0.4rem;">Nombre Completo</label>
+            <input 
+              type="text" 
+              [(ngModel)]="nombre" 
+              name="nombre" 
+              placeholder="Ej. Juan Pérez"
+              style="width: 100%; padding: 0.75rem; background: #020617; border: 1px solid #334155; border-radius: 0.75rem; color: #ffffff; font-size: 0.8rem; box-sizing: border-box;">
           </div>
 
-          <!-- Campo Correo Electrónico (@) -->
+          <!-- Correo -->
           <div>
-            <label class="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-1.5">Correo Electrónico</label>
-            <div class="relative flex items-center">
-              <svg width="16" height="16" class="w-4 h-4 text-slate-500 absolute left-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207" />
-              </svg>
-              <input 
-                type="email" 
-                [(ngModel)]="correo" 
-                name="correo" 
-                required 
-                placeholder="usuario@ejemplo.com"
-                class="w-full pl-10 pr-4 py-3 bg-slate-950/60 border border-slate-800 rounded-xl text-xs font-medium text-white placeholder-slate-600 focus:outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500 transition">
-            </div>
+            <label style="display: block; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; color: #94a3b8; margin-bottom: 0.4rem;">Correo Electrónico</label>
+            <input 
+              type="email" 
+              [(ngModel)]="correo" 
+              name="correo" 
+              required 
+              placeholder="usuario@ejemplo.com"
+              style="width: 100%; padding: 0.75rem; background: #020617; border: 1px solid #334155; border-radius: 0.75rem; color: #ffffff; font-size: 0.8rem; box-sizing: border-box;">
           </div>
 
-          <!-- Campo Contraseña (Candado) -->
+          <!-- Contraseña -->
           <div>
-            <label class="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-1.5">Contraseña</label>
-            <div class="relative flex items-center">
-              <svg width="16" height="16" class="w-4 h-4 text-slate-500 absolute left-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-              </svg>
-              <input 
-                type="password" 
-                [(ngModel)]="password" 
-                name="password" 
-                required 
-                placeholder="••••••••"
-                class="w-full pl-10 pr-4 py-3 bg-slate-950/60 border border-slate-800 rounded-xl text-xs font-medium text-white placeholder-slate-600 focus:outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500 transition">
-            </div>
+            <label style="display: block; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; color: #94a3b8; margin-bottom: 0.4rem;">Contraseña</label>
+            <input 
+              type="password" 
+              [(ngModel)]="password" 
+              name="password" 
+              required 
+              placeholder="••••••••"
+              style="width: 100%; padding: 0.75rem; background: #020617; border: 1px solid #334155; border-radius: 0.75rem; color: #ffffff; font-size: 0.8rem; box-sizing: border-box;">
           </div>
 
           <!-- Selección de Rol -->
-          <div class="pt-2">
-            <label class="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-2">Selecciona tu Rol</label>
-            <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label style="display: block; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; color: #94a3b8; margin-bottom: 0.4rem;">Selecciona tu Rol</label>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;">
               <button 
                 type="button" 
                 (click)="rol = 'Cliente'" 
-                [ngClass]="{
-                  'border-orange-500 bg-orange-500/10 text-orange-400 font-bold': rol === 'Cliente',
-                  'border-slate-800 bg-slate-950/40 text-slate-500 hover:border-slate-700': rol !== 'Cliente'
-                }"
-                class="p-3 border rounded-xl flex items-center justify-center gap-2 transition text-xs cursor-pointer">
-                <span>Cliente</span>
+                [style.border-color]="rol === 'Cliente' ? '#f97316' : '#334155'"
+                [style.background]="rol === 'Cliente' ? 'rgba(249, 115, 22, 0.15)' : '#020617'"
+                [style.color]="rol === 'Cliente' ? '#fb923c' : '#94a3b8'"
+                style="padding: 0.75rem; border-width: 1px; border-style: solid; border-radius: 0.75rem; font-size: 0.75rem; font-weight: 700; cursor: pointer;">
+                Cliente
               </button>
 
               <button 
                 type="button" 
                 (click)="rol = 'Conductor'" 
-                [ngClass]="{
-                  'border-orange-500 bg-orange-500/10 text-orange-400 font-bold': rol === 'Conductor',
-                  'border-slate-800 bg-slate-950/40 text-slate-500 hover:border-slate-700': rol !== 'Conductor'
-                }"
-                class="p-3 border rounded-xl flex items-center justify-center gap-2 transition text-xs cursor-pointer">
-                <span>Conductor</span>
+                [style.border-color]="rol === 'Conductor' ? '#f97316' : '#334155'"
+                [style.background]="rol === 'Conductor' ? 'rgba(249, 115, 22, 0.15)' : '#020617'"
+                [style.color]="rol === 'Conductor' ? '#fb923c' : '#94a3b8'"
+                style="padding: 0.75rem; border-width: 1px; border-style: solid; border-radius: 0.75rem; font-size: 0.75rem; font-weight: 700; cursor: pointer;">
+                Conductor
               </button>
             </div>
           </div>
 
-          <!-- Botón de Envío -->
+          <!-- Botón de Acción -->
           <button 
             type="submit" 
             [disabled]="loading"
-            class="w-full bg-orange-500 hover:bg-orange-600 active:scale-[0.99] text-white font-bold py-3.5 rounded-xl shadow-lg shadow-orange-500/20 transition-all duration-200 text-xs uppercase tracking-wider cursor-pointer mt-4 disabled:opacity-50 flex items-center justify-center gap-2">
-            <span *ngIf="!loading">{{ isLogin ? 'Ingresar a la Plataforma' : 'Crear Cuenta' }}</span>
-            <span *ngIf="loading" class="animate-spin border-2 border-white border-t-transparent rounded-full w-4 h-4"></span>
+            style="width: 100%; margin-top: 0.5rem; padding: 0.85rem; background: #f97316; border: none; border-radius: 0.75rem; color: #ffffff; font-size: 0.8rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; cursor: pointer; box-shadow: 0 10px 15px -3px rgba(249, 115, 22, 0.3);">
+            {{ loading ? 'Procesando...' : (isLogin ? 'Ingresar a la Plataforma' : 'Crear Cuenta') }}
           </button>
 
         </form>
 
-        <div *ngIf="errorMessage" class="mt-4 p-3 bg-rose-500/10 border border-rose-500/30 text-rose-400 text-xs rounded-xl text-center font-semibold">
+        <div *ngIf="errorMessage" style="margin-top: 1rem; padding: 0.75rem; background: rgba(244, 63, 94, 0.15); border: 1px solid rgba(244, 63, 94, 0.3); color: #fb7185; font-size: 0.75rem; border-radius: 0.75rem; text-align: center; font-weight: 600;">
           {{ errorMessage }}
         </div>
 
